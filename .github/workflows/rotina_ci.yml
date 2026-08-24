@@ -17,16 +17,12 @@ jobs:
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: 'maven'
+          java-version: 21
+          distribution: temurin
+          cache: maven
 
-      - name: Build with Maven
-        run: mvn -B clean verify
+      - name: Permissão Maven
+        run: chmod +x mvnw
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: '**/target/surefire-reports/*.xml'
+      - name: Build
+        run: ./mvnw clean package -Dspring.profiles.active=teste
