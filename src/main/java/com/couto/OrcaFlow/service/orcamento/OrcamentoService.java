@@ -51,7 +51,7 @@ public class OrcamentoService {
 
         Orcamento orcamento = mapper.toEntity(request);
 
-        orcamento.setUsuarioId(usuarioId);
+        orcamento.getUsuario().getId();
         orcamento.setClienteId(request.clientId());
         orcamento.setStatusOrcamento(StatusOrcamento.RASCUNHO);
         orcamento.setValidade(request.validade());
