@@ -17,7 +17,6 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private UUID usuarioId;
     private String nome;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id",nullable = false)
