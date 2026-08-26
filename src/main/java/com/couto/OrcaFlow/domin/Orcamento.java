@@ -19,17 +19,24 @@ import java.util.UUID;
 public class Orcamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
 
     private UUID id;
+
     @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "usuario_id",nullable = false)
     private Usuario usuario;
+
     private UUID clienteId;
+
     private Long codigoPublico;
+
     @Enumerated(EnumType.STRING)
     private StatusOrcamento statusOrcamento;
+
     private LocalDate validade;
+
     private String observacao;
+
     private BigDecimal total;
 }
