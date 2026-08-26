@@ -22,8 +22,9 @@ public class Orcamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private UUID id;
-    @Column(nullable = false)
-    private UUID usuarioId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "usuario_id")
+    private Usuario usuario;
     private UUID clienteId;
     private Long codigoPublico;
     @Enumerated(EnumType.STRING)
