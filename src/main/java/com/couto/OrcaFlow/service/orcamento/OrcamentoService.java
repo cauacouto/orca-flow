@@ -3,6 +3,7 @@ package com.couto.OrcaFlow.service.orcamento;
 import com.couto.OrcaFlow.Enum.StatusOrcamento;
 import com.couto.OrcaFlow.domin.ItemOrcamento;
 import com.couto.OrcaFlow.domin.Orcamento;
+import com.couto.OrcaFlow.domin.Usuario;
 import com.couto.OrcaFlow.dto.ItemRequest;
 import com.couto.OrcaFlow.dto.OrcamentoRequest;
 import com.couto.OrcaFlow.dto.OrcamentoResponse;
@@ -47,11 +48,12 @@ public class OrcamentoService {
 
     }
 
-    public OrcamentoResponse criarOrcamento(OrcamentoRequest request, UUID usuarioId){
+    public OrcamentoResponse criarOrcamento(OrcamentoRequest request, Usuario usuario){
+
 
         Orcamento orcamento = mapper.toEntity(request);
 
-        orcamento.getUsuario().getId();
+        orcamento.setUsuario(usuario);
         orcamento.setClienteId(request.clientId());
         orcamento.setStatusOrcamento(StatusOrcamento.RASCUNHO);
         orcamento.setValidade(request.validade());
