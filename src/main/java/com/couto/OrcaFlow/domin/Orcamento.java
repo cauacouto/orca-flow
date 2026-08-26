@@ -16,12 +16,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Orçamento {
+public class Orcamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Integer id;
+    private UUID id;
+    @Column(nullable = false)
     private UUID usuarioId;
     private UUID clienteId;
     private Long codigoPublico;
