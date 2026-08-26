@@ -1,4 +1,4 @@
-package com.couto.OrcaFlow.repository.usuario;
+package com.couto.OrcaFlow.repository.usuarioRepository;
 
 import com.couto.OrcaFlow.domin.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +11,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>
 {
     Optional<Usuario> findByGoogleId(String googleId);
 
+    boolean existsByGoogleId(String googleId);
 }
