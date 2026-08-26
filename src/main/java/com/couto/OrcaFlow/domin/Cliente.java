@@ -19,6 +19,18 @@ public class Cliente {
     private UUID id;
     private UUID usuarioId;
     private String nome;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id",nullable = false)
+    private Usuario usuario;
     private Integer telefone;
+    private Boolean ativo = true;
+
+    public void inativar(){
+        this.ativo = false;
+    }
+
+    public void ativar(){
+        this.ativo = true;
+    }
 
 }
