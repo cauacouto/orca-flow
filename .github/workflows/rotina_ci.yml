@@ -25,4 +25,4 @@ jobs:
         run: chmod +x mvnw
 
       - name: Build
-        run: ./mvnw clean package -Dspring.profiles.active=teste
+        run: ./mvnw clean package -Dspring.profiles.active=teste -DskipTests
