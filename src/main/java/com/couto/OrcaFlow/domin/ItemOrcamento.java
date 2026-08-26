@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Item_orcamento_db")
@@ -17,9 +18,10 @@ public class ItemOrcamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer orcamentoId;
+    private String nome;
+    private UUID orcamentoId;
     private String descricao;
-    private int quantidade;
+    private Integer quantidade;
     private BigDecimal valorUnitario;
     private BigDecimal total;
 }
