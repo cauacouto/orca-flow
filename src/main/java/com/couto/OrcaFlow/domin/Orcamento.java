@@ -23,7 +23,7 @@ public class Orcamento {
 
     private UUID id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "usuario_id")
+  @JoinColumn(name = "usuario_id",nullable = false)
     private Usuario usuario;
     private UUID clienteId;
     private Long codigoPublico;
