@@ -2,9 +2,7 @@ package com.couto.OrcaFlow.domin;
 
 import com.couto.OrcaFlow.Enum.StatusOrcamento;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,8 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "orcamentos_db")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 
 public class Orcamento {
 
@@ -39,4 +36,12 @@ public class Orcamento {
     private String observacao;
 
     private BigDecimal total;
+
+   public Orcamento(){}
+    public Orcamento(StatusOrcamento statusOrcamento, LocalDate validade, String observacao, BigDecimal total) {
+        this.statusOrcamento = statusOrcamento;
+        this.validade = validade;
+        this.observacao = observacao;
+        this.total = total;
+    }
 }
