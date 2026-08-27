@@ -26,7 +26,7 @@ public class Orcamento {
 
     private UUID clienteId;
 
-    private Long codigoPublico;
+    private String codigoPublico;
 
     @Enumerated(EnumType.STRING)
     private StatusOrcamento statusOrcamento;
