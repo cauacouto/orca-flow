@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -33,11 +35,12 @@ public class OrcamentoService {
 
         ItemOrcamento itemOrcamento = new ItemOrcamento();
         itemOrcamento.setNome(request.nome());
+
         itemOrcamento.setDescricao(request.descricao());
+
         itemOrcamento.setQuantidade(request.quantidade());
+
         itemOrcamento.setValorUnitario(request.valorUnitario());
-
-
 
         BigDecimal Total = request.valorUnitario().multiply(BigDecimal.valueOf(request.quantidade()));
 
@@ -48,17 +51,17 @@ public class OrcamentoService {
 
     }
 
+    //implmentar envio por link
+
     public OrcamentoResponse criarOrcamento(OrcamentoRequest request, Usuario usuario){
-
-
         Orcamento orcamento = mapper.toEntity(request);
 
         orcamento.setUsuario(usuario);
-        orcamento.setClienteId(request.clientId());
+
         orcamento.setStatusOrcamento(StatusOrcamento.RASCUNHO);
-        orcamento.setValidade(request.validade());
-        orcamento.setObservacao(request.observacao());
+
         orcamento.setTotal(BigDecimal.ZERO);
+
         orcamentoRepository.save(orcamento);
         return mapper.toDto(orcamento);
     }
@@ -78,5 +81,22 @@ public class OrcamentoService {
         itemRepository.deleteById(itemId);
 
     }
+
+    public OrcamentoResponse buscarOrcamentoPorId(UUID id,Usuario usuario){
+      Orcamento orcamento =  orcamentoRepository.findByIdAndUsuario(id,usuario)
+                .orElseThrow(()-> new RuntimeException("orcamento nao encotrado"));
+              return mapper.toDto(orcamento);
+    }
+
+    public List<OrcamentoResponse> listarOrcamento(Usuario usuario){
+        List<Orcamento> orcamentos = orcamentoRepository.findByUsuario(usuario);
+        return orcamentos.stream()
+                .map(mapper::toDto)
+                .toList();
+
+
+    }
+
+
 
 }
