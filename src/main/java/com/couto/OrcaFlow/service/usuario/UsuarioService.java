@@ -35,7 +35,7 @@ public class UsuarioService {
         usuario.setEmail(auth2User.getAttribute("email"));
         usuario.setName(auth2User.getAttribute("name"));
         usuario.setPicture(auth2User.getAttribute("picture"));
-        usuario.setRole(Roles.CLIENTE);
+        usuario.setRole(Roles.PROFISSIONAL);
         usuario.setOnboardingCompleted(false);
 
         return usuarioRepository.save(usuario);
