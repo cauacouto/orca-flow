@@ -19,7 +19,6 @@ public class Cliente {
     private UUID id;
 
     private String nome;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id",nullable = false)
     private Usuario usuario;
