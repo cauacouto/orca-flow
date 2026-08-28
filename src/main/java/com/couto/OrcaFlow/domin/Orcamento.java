@@ -19,7 +19,7 @@ public class Orcamento {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     private UUID id;
-
+     private String nomeOrcamento;
     @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "usuario_id",nullable = false)
     private Usuario usuario;
@@ -44,4 +44,11 @@ public class Orcamento {
         this.observacao = observacao;
         this.total = total;
     }
+
+     public void enviar(){
+       if (statusOrcamento != StatusOrcamento.RASCUNHO){
+           throw  new IllegalArgumentException("somente orçamento em rascunho pode ser enviado ");
+       }
+       this.statusOrcamento = StatusOrcamento.ENVIADO;
+     }
 }
