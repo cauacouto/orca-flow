@@ -59,7 +59,9 @@ public class OrcamentoTest {
 
         OrcamentoRequest request = new OrcamentoRequest(
                 clientId,
+                "test1",
                 data,
+
                 "tomada"
 
         );
@@ -80,6 +82,7 @@ public class OrcamentoTest {
         OrcamentoResponse response = new OrcamentoResponse(
                 idbanco,
                 codigo,
+                orcamento.getNomeOrcamento(),
                 clientId,
                 StatusOrcamento.RASCUNHO,
                 data,
