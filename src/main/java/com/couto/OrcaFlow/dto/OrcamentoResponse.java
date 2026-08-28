@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public record OrcamentoResponse(
         UUID id,
+        String nomeOrcamento,
         String codigoPublico,
         UUID clienteId,
         StatusOrcamento status,
