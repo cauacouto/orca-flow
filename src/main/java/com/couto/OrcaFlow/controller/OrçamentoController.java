@@ -5,11 +5,13 @@ import com.couto.OrcaFlow.dto.ItemRequest;
 import com.couto.OrcaFlow.dto.OrcamentoRequest;
 import com.couto.OrcaFlow.dto.OrcamentoResponse;
 import com.couto.OrcaFlow.service.orcamento.OrcamentoService;
+import com.couto.OrcaFlow.service.usuario.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +24,12 @@ import java.util.UUID;
 public class OrçamentoController {
 
     private final OrcamentoService service;
+    private final UsuarioService usuarioService;
 
 
     @PostMapping()
-    public ResponseEntity<OrcamentoResponse> criarOrcamento(@RequestBody OrcamentoRequest request, @AuthenticationPrincipal Usuario usuario){
+    public ResponseEntity<OrcamentoResponse> criarOrcamento(@RequestBody OrcamentoRequest request, @AuthenticationPrincipal OAuth2User auth2User){
+        Usuario usuario = usuarioService.buscarOuCriarEntidade(auth2User);
         OrcamentoResponse response = service.criarOrcamento(request, usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -58,5 +62,12 @@ public class OrçamentoController {
     public ResponseEntity<List<OrcamentoResponse>> listarOrcamento(@AuthenticationPrincipal Usuario usuario){
        List<OrcamentoResponse> orcamentoResponses = service.listarOrcamento(usuario);
         return ResponseEntity.ok().body(orcamentoResponses);
+    }
+
+    @PostMapping("/{id}/codigo")
+    public ResponseEntity<String> gerarcodigo(@PathVariable UUID id, @AuthenticationPrincipal OAuth2User oAuth2User){
+        Usuario usuario = usuarioService.buscarOuCriarEntidade(oAuth2User);
+        String codigo = service.gerarCodigo(id);
+        return ResponseEntity.ok().body(codigo);
     }
 }
