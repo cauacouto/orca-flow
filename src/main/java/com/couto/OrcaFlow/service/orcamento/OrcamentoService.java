@@ -1,6 +1,7 @@
 package com.couto.OrcaFlow.service.orcamento;
 
 import com.couto.OrcaFlow.Enum.StatusOrcamento;
+import com.couto.OrcaFlow.domin.Cliente;
 import com.couto.OrcaFlow.domin.ItemOrcamento;
 import com.couto.OrcaFlow.domin.Orcamento;
 import com.couto.OrcaFlow.domin.Usuario;
@@ -10,11 +11,11 @@ import com.couto.OrcaFlow.dto.OrcamentoResponse;
 import com.couto.OrcaFlow.mapper.OrcamentoMapper;
 import com.couto.OrcaFlow.repository.ItemRepositori.ItemRepository;
 import com.couto.OrcaFlow.repository.OrcamentoRepository.OrcamentoRepository;
+import com.couto.OrcaFlow.repository.clientRepository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class OrcamentoService {
     private final OrcamentoRepository orcamentoRepository;
     private final ItemRepository itemRepository;
     private final OrcamentoMapper mapper;
+    private final ClienteRepository clienteRepository;
 
 
     public void adicionarItem(UUID orcamentoId, ItemRequest request){
@@ -51,17 +53,27 @@ public class OrcamentoService {
 
     }
 
-    //implmentar envio por link
+
+    public String gerarCodigo(UUID orcamentoId){
+        Orcamento orcamento = orcamentoRepository.findById(orcamentoId)
+                .orElseThrow(()-> new RuntimeException("orçamento nao ecnontrado"));
+
+         String codigopublic = UUID.randomUUID().toString();
+         orcamento.setCodigoPublico(codigopublic);
+
+         return "urlteste//orcaflow,com/orcamento" + codigopublic;
+
+    }
+
+    // fazer metodo para listar os codigo
+
+
 
     public OrcamentoResponse criarOrcamento(OrcamentoRequest request, Usuario usuario){
         Orcamento orcamento = mapper.toEntity(request);
-
         orcamento.setUsuario(usuario);
-
         orcamento.setStatusOrcamento(StatusOrcamento.RASCUNHO);
-
         orcamento.setTotal(BigDecimal.ZERO);
-
         orcamentoRepository.save(orcamento);
         return mapper.toDto(orcamento);
     }
