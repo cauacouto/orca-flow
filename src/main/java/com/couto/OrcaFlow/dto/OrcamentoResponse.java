@@ -11,7 +11,7 @@ public record OrcamentoResponse(
         String nomeOrcamento,
         String codigoPublico,
         UUID clienteId,
-        StatusOrcamento status,
+      StatusOrcamento statusOrcamento,
         LocalDate validade,
         String observacao,
         BigDecimal valorTotal
