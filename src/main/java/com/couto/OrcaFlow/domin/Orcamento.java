@@ -29,7 +29,7 @@ public class Orcamento {
     private String codigoPublico;
 
     @Enumerated(EnumType.STRING)
-    private StatusOrcamento statusOrcamento;
+    private StatusOrcamento statusOrcamento = StatusOrcamento.RASCUNHO;
 
     private LocalDate validade;
 
