@@ -2,7 +2,6 @@ package com.couto.OrcaFlow.service.usuario;
 
 import com.couto.OrcaFlow.Enum.Roles;
 import com.couto.OrcaFlow.domin.Usuario;
-import com.couto.OrcaFlow.dto.UsuarioDto;
 import com.couto.OrcaFlow.mapper.UsuarioMapper;
 import com.couto.OrcaFlow.repository.usuarioRepository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +17,14 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper mapper;
 
-    public UsuarioDto buscarOuCriar(OAuth2User auth2User){
+    public Usuario buscarOuCriarEntidade(OAuth2User auth2User){
 
         String googleId = auth2User.getAttribute("sub");
-
-        Usuario usuario = usuarioRepository.findByGoogleId(googleId).orElseGet(()->
-                criarUsuario(auth2User));
-        return mapper.toResponse(usuario);
+        return usuarioRepository.findByGoogleId(googleId)
+                .orElseGet(()-> criarUsuario(auth2User));
 
     }
+
 
     private Usuario criarUsuario(OAuth2User auth2User){
 
