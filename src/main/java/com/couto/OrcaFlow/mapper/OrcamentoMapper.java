@@ -4,6 +4,7 @@ import com.couto.OrcaFlow.domin.Orcamento;
 import com.couto.OrcaFlow.dto.OrcamentoRequest;
 import com.couto.OrcaFlow.dto.OrcamentoResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface OrcamentoMapper {
