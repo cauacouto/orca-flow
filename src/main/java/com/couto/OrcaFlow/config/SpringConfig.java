@@ -2,7 +2,6 @@ package com.couto.OrcaFlow.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,11 +11,13 @@ public class SpringConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(register-> {
             register.requestMatchers("/").permitAll();
             register.anyRequest().authenticated();
-        }).oauth2Login(Customizer.withDefaults())
+        })
+                .oauth2Login(Customizer.withDefaults())
+                .csrf(csrf ->csrf.disable())
                 .build();
     }
 }
