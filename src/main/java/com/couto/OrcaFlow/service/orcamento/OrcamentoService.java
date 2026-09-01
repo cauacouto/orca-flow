@@ -65,19 +65,24 @@ public class OrcamentoService {
 
     }
 
-    // fazer metodo para listar os codigo
 
 
+    public OrcamentoResponse criarOrcamento(OrcamentoRequest request, Usuario usuario) {
 
-    public OrcamentoResponse criarOrcamento(OrcamentoRequest request, Usuario usuario){
+        Cliente cliente = clienteRepository.findByIdAndUsuario(request.clientId(),usuario)
+                .orElseThrow(() -> new RuntimeException("cliente não encotrado"));
+
+        if (!cliente.getUsuario().equals(usuario)){
+            throw new RuntimeException("cliente não pertencente");
+        }
         Orcamento orcamento = mapper.toEntity(request);
         orcamento.setUsuario(usuario);
         orcamento.setStatusOrcamento(StatusOrcamento.RASCUNHO);
         orcamento.setTotal(BigDecimal.ZERO);
         orcamentoRepository.save(orcamento);
         return mapper.toDto(orcamento);
-    }
 
+    }
     public void excluriOrcamento(UUID orcamentoId){
         this.orcamentoRepository.deleteById(orcamentoId);
     }
@@ -110,5 +115,8 @@ public class OrcamentoService {
     }
 
 
+    }
 
-}
+
+
+
