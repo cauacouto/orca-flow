@@ -12,4 +12,6 @@ public interface OrcamentoRepository extends JpaRepository<Orcamento, UUID> {
     Optional<Orcamento> findByIdAndUsuario(UUID id, Usuario usuario);
 
     List<Orcamento> findByUsuario(Usuario usuario);
+
+
 }
