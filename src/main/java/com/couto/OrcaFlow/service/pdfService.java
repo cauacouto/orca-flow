@@ -57,7 +57,7 @@ public class pdfService {
             tabela.addCell("valor unitario");
             tabela.addCell("valor total");
 
-            for (ItemOrcamento item : orcamento.getItems()){
+            for (ItemOrcamento item : orcamento.getItemsList()){
                 tabela.addCell(item.getDescricao());
                 tabela.addCell(
                         String.valueOf(item.getQuantidade())
