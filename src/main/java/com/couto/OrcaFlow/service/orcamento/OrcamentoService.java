@@ -31,7 +31,7 @@ public class OrcamentoService {
 
     public void adicionarItem(UUID orcamentoId, ItemRequest request){
 
-        this.orcamentoRepository.findById(orcamentoId)
+        Orcamento orcamento = orcamentoRepository.findById(orcamentoId)
                 .orElseThrow(()
                         -> new RuntimeException("orcamento nao encontrado"));
 
@@ -44,27 +44,14 @@ public class OrcamentoService {
 
         itemOrcamento.setValorUnitario(request.valorUnitario());
 
-        BigDecimal Total = request.valorUnitario().multiply(BigDecimal.valueOf(request.quantidade()));
+        BigDecimal Total = request.valorUnitario()
+                .multiply(BigDecimal.valueOf(request.quantidade()));
 
         itemOrcamento.setTotal(Total);
-        itemOrcamento.setOrcamentoId(orcamentoId);
-
-        itemRepository.save(itemOrcamento);
-
-    }
-
-
-    public String gerarCodigo(UUID orcamentoId){
-        Orcamento orcamento = orcamentoRepository.findById(orcamentoId)
-                .orElseThrow(()-> new RuntimeException("orçamento nao ecnontrado"));
-
-         String codigopublic = UUID.randomUUID().toString();
-         orcamento.setCodigoPublico(codigopublic);
-
-         return "urlteste//orcaflow,com/orcamento" + codigopublic;
+       orcamento.adicionarItem(itemOrcamento);
+        orcamentoRepository.save(orcamento);
 
     }
-
 
 
     public OrcamentoResponse criarOrcamento(OrcamentoRequest request, Usuario usuario) {
@@ -92,7 +79,7 @@ public class OrcamentoService {
                 new RuntimeException("item não encontrado")
                 );
 
-        if (!item.getOrcamentoId().equals(orcamentoId)){
+        if (!item.getOrcamento().equals(orcamentoId)){
             throw new RuntimeException("Item não pertence ao orçamento");
         }
         itemRepository.deleteById(itemId);
