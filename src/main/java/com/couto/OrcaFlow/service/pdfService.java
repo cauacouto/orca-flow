@@ -1,8 +1,9 @@
 package com.couto.OrcaFlow.service;
 
-import com.couto.OrcaFlow.domin.Cliente;
 import com.couto.OrcaFlow.domin.ItemOrcamento;
 import com.couto.OrcaFlow.domin.Orcamento;
+import com.couto.OrcaFlow.domin.Usuario;
+import com.couto.OrcaFlow.repository.OrcamentoRepository.OrcamentoRepository;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -12,12 +13,18 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 @Service
 public class pdfService {
 
+    private final OrcamentoRepository orcamentoRepository;
 
-    public byte[] gerarDocumento(Orcamento orcamento, Cliente cliente) throws DocumentException {
+    public pdfService(OrcamentoRepository orcamentoRepository) {
+        this.orcamentoRepository = orcamentoRepository;
+    }
+
+    private byte[] gerarDocumento(Orcamento orcamento) throws DocumentException {
 
         try {
             ByteArrayOutputStream outpud = new ByteArrayOutputStream();
@@ -39,7 +46,7 @@ public class pdfService {
 
             document.add(new Paragraph("ORÇAMENTO",titulofont));
 
-            document.add(new Paragraph("cliente" + cliente.getNome())
+            document.add(new Paragraph("cliente" + orcamento.getCliente().getNome())
             );
 
             document.add(new Paragraph("validade" + orcamento.getValidade())
@@ -97,5 +104,11 @@ public class pdfService {
         }catch (DocumentException e){
             throw  new RuntimeException("erro ao gerar pdf do orçamento",e);
         }
+    }
+
+    public byte[] gerarpdf(UUID id, Usuario usuario) throws DocumentException {
+        Orcamento orcamento = orcamentoRepository.findByIdAndUsuario(id, usuario)
+                .orElseThrow(()-> new RuntimeException("orçamento não pertencente"));
+        return gerarDocumento(orcamento);
     }
 }
