@@ -19,7 +19,9 @@ public class ItemOrcamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nome;
-    private UUID orcamentoId;
+    @ManyToOne
+    @JoinColumn(name = "orcamento_id", nullable = false)
+    private Orcamento orcamento;
     private String descricao;
     private Integer quantidade;
     private BigDecimal valorUnitario;
