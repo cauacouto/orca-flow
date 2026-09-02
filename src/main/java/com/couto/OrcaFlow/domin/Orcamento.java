@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +28,13 @@ public class Orcamento {
 
     private UUID clienteId;
 
-    private String codigoPublico;
+    @OneToMany(
+            mappedBy = "orcamento",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ItemOrcamento> itemsList = new ArrayList<>();
+
 
     @Enumerated(EnumType.STRING)
     private StatusOrcamento statusOrcamento = StatusOrcamento.RASCUNHO;
@@ -50,5 +58,11 @@ public class Orcamento {
            throw  new IllegalArgumentException("somente orçamento em rascunho pode ser enviado ");
        }
        this.statusOrcamento = StatusOrcamento.ENVIADO;
+     }
+
+
+     public void adicionarItem(ItemOrcamento item){
+       itemsList.add(item);
+       item.setOrcamento(this);
      }
 }
