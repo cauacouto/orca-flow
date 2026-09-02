@@ -5,9 +5,12 @@ import com.couto.OrcaFlow.dto.ItemRequest;
 import com.couto.OrcaFlow.dto.OrcamentoRequest;
 import com.couto.OrcaFlow.dto.OrcamentoResponse;
 import com.couto.OrcaFlow.service.orcamento.OrcamentoService;
+import com.couto.OrcaFlow.service.pdfService;
 import com.couto.OrcaFlow.service.usuario.UsuarioService;
+import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +28,7 @@ public class OrçamentoController {
 
     private final OrcamentoService service;
     private final UsuarioService usuarioService;
+    private final pdfService pdfService;
 
 
     @PostMapping()
@@ -64,10 +68,14 @@ public class OrçamentoController {
         return ResponseEntity.ok().body(orcamentoResponses);
     }
 
-    @PostMapping("/{id}/codigo")
-    public ResponseEntity<String> gerarcodigo(@PathVariable UUID id, @AuthenticationPrincipal OAuth2User oAuth2User){
-        Usuario usuario = usuarioService.buscarOuCriarEntidade(oAuth2User);
-        String codigo = service.gerarCodigo(id);
-        return ResponseEntity.ok().body(codigo);
+    @GetMapping("/{id}/pdf")
+    public ResponseEntity<byte[]> gerarPdf(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario) throws DocumentException {
+
+        byte[] pfd = pdfService.gerarpdf(id, usuario);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pfd);
+
+
     }
 }
