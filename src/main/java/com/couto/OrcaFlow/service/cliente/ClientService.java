@@ -20,8 +20,6 @@ public class ClientService {
 
     public ClienteResponse criarCliente(ClientRequest request){
         Cliente cliente = mapper.toEntity(request);
-        cliente.setNome(request.nome());
-        cliente.setTelefone(request.telefone());
         clienteRepository.save(cliente);
         return mapper.toDto(cliente);
 
