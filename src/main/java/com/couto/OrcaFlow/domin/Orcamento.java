@@ -26,7 +26,9 @@ public class Orcamento {
   @JoinColumn(name = "usuario_id",nullable = false)
     private Usuario usuario;
 
-    private UUID clienteId;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
 
     @OneToMany(
             mappedBy = "orcamento",
